@@ -1,0 +1,6 @@
+@FlashOrder.API_HostAddress = http://localhost:5036
+
+GET {{FlashOrder.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
