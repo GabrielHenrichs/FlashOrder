@@ -3,7 +3,7 @@ using FlashOrder.Application.DTOs.Responses;
 
 namespace FlashOrder.Application.UseCases.Portfolio;
 
-public sealed class GetPositionsUseCase(IPositionRepository positions)
+public sealed class GetPositionsUseCase(IPositionRepository positions) : IGetPositionsUseCase
 {
     public async Task<IReadOnlyCollection<PositionResponse>> ExecuteAsync(CancellationToken ct)
     {

@@ -9,7 +9,7 @@ namespace FlashOrder.Application.UseCases.Trades;
 public sealed class SellStockUseCase(
     IStockRepository stockRepository,
     IPositionRepository positionRepository,
-    ITransactionRepository transactionRepository)
+    ITransactionRepository transactionRepository) : ISellStockUseCase
 {
     public async Task<TransactionResponse> ExecuteAsync(SellStockCommand command, CancellationToken ct)
     {
@@ -17,7 +17,7 @@ public sealed class SellStockUseCase(
             throw new Exceptions.ApplicationException("Quantidade deve ser maior que zero.");
 
         var stock = await stockRepository.GetByCodeAsync(command.StockCode, ct)
-            ?? throw new Exceptions.ApplicationException("Ação não encontrada.");
+            ?? throw new Exceptions.ApplicationException("Acao nao encontrada.");
 
         var position = await positionRepository.GetByStockCodeAsync(stock.Code, ct) ?? new Position(stock.Code, 0);
 
