@@ -2,7 +2,10 @@ namespace FlashOrder.Application.Exceptions;
 
 public sealed class ApplicationException : Exception
 {
-    public ApplicationException(string message) : base(message)
+    public ApplicationErrorCode ErrorCode { get; }
+
+    public ApplicationException(ApplicationErrorCode errorCode, string message) : base(message)
     {
+        ErrorCode = errorCode;
     }
 }
