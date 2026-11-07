@@ -21,7 +21,7 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var code = NewCode("PETR");
 
-        var response = await _client.PostAsJsonAsync("/api/stocks", new
+        var response = await _client.PostAsJsonAsync("/api/v1/stocks", new
         {
             code,
             companyName = "Petrobras",
@@ -36,14 +36,14 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var code = NewCode("VALE");
 
-        await _client.PostAsJsonAsync("/api/stocks", new
+        await _client.PostAsJsonAsync("/api/v1/stocks", new
         {
             code,
             companyName = "Vale",
             currentPrice = 60m
         });
 
-        var response = await _client.PostAsJsonAsync("/api/stocks", new
+        var response = await _client.PostAsJsonAsync("/api/v1/stocks", new
         {
             code,
             companyName = "Vale SA",
@@ -58,7 +58,7 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var code = NewCode("BBDC");
 
-        var response = await _client.PostAsJsonAsync("/api/stocks", new
+        var response = await _client.PostAsJsonAsync("/api/v1/stocks", new
         {
             code,
             companyName = "Bradesco",
@@ -73,14 +73,14 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var code = NewCode("ABEV");
 
-        await _client.PostAsJsonAsync("/api/stocks", new
+        await _client.PostAsJsonAsync("/api/v1/stocks", new
         {
             code,
             companyName = "Ambev",
             currentPrice = 12m
         });
 
-        var response = await _client.GetAsync("/api/stocks");
+        var response = await _client.GetAsync("/api/v1/stocks");
         var payload = await response.Content.ReadAsStringAsync();
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -92,7 +92,7 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var unknownCode = NewCode("MISS");
 
-        var response = await _client.PostAsJsonAsync("/api/trades/buy", new
+        var response = await _client.PostAsJsonAsync("/api/v1/trades/buy", new
         {
             stockCode = unknownCode,
             quantity = 1
@@ -106,14 +106,14 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var code = NewCode("MGLU");
 
-        await _client.PostAsJsonAsync("/api/stocks", new
+        await _client.PostAsJsonAsync("/api/v1/stocks", new
         {
             code,
             companyName = "Magalu",
             currentPrice = 3m
         });
 
-        var response = await _client.PostAsJsonAsync("/api/trades/buy", new
+        var response = await _client.PostAsJsonAsync("/api/v1/trades/buy", new
         {
             stockCode = code,
             quantity = 0
@@ -127,7 +127,7 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var unknownCode = NewCode("MISS");
 
-        var response = await _client.PostAsJsonAsync("/api/trades/sell", new
+        var response = await _client.PostAsJsonAsync("/api/v1/trades/sell", new
         {
             stockCode = unknownCode,
             quantity = 1
@@ -141,14 +141,14 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var code = NewCode("USIM");
 
-        await _client.PostAsJsonAsync("/api/stocks", new
+        await _client.PostAsJsonAsync("/api/v1/stocks", new
         {
             code,
             companyName = "Usiminas",
             currentPrice = 8m
         });
 
-        var response = await _client.PostAsJsonAsync("/api/trades/sell", new
+        var response = await _client.PostAsJsonAsync("/api/v1/trades/sell", new
         {
             stockCode = code,
             quantity = 0
@@ -162,20 +162,20 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var code = NewCode("ITUB");
 
-        await _client.PostAsJsonAsync("/api/stocks", new
+        await _client.PostAsJsonAsync("/api/v1/stocks", new
         {
             code,
             companyName = "Itau",
             currentPrice = 25m
         });
 
-        await _client.PostAsJsonAsync("/api/trades/buy", new
+        await _client.PostAsJsonAsync("/api/v1/trades/buy", new
         {
             stockCode = code,
             quantity = 1
         });
 
-        var response = await _client.PostAsJsonAsync("/api/trades/sell", new
+        var response = await _client.PostAsJsonAsync("/api/v1/trades/sell", new
         {
             stockCode = code,
             quantity = 2
@@ -189,29 +189,29 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         var code = NewCode("WEGE");
 
-        await _client.PostAsJsonAsync("/api/stocks", new
+        await _client.PostAsJsonAsync("/api/v1/stocks", new
         {
             code,
             companyName = "Weg",
             currentPrice = 40m
         });
 
-        await _client.PostAsJsonAsync("/api/trades/buy", new
+        await _client.PostAsJsonAsync("/api/v1/trades/buy", new
         {
             stockCode = code,
             quantity = 3
         });
 
-        await _client.PostAsJsonAsync("/api/trades/sell", new
+        await _client.PostAsJsonAsync("/api/v1/trades/sell", new
         {
             stockCode = code,
             quantity = 1
         });
 
-        var positionsResponse = await _client.GetAsync("/api/portfolio/positions");
+        var positionsResponse = await _client.GetAsync("/api/v1/portfolio/positions");
         var positionsPayload = await positionsResponse.Content.ReadAsStringAsync();
 
-        var transactionsResponse = await _client.GetAsync("/api/portfolio/transactions");
+        var transactionsResponse = await _client.GetAsync("/api/v1/portfolio/transactions");
         var transactionsPayload = await transactionsResponse.Content.ReadAsStringAsync();
 
         Assert.Equal(HttpStatusCode.OK, positionsResponse.StatusCode);
