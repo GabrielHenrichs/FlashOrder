@@ -7,7 +7,7 @@ using ApplicationLayerException = FlashOrder.Application.Exceptions.ApplicationE
 
 namespace FlashOrder.Application.UseCases.Stocks;
 
-public sealed class CreateStockUseCase(IStockRepository stockRepository)
+public sealed class CreateStockUseCase(IStockRepository stockRepository) : ICreateStockUseCase
 {
     public async Task<StockResponse> ExecuteAsync(CreateStockCommand command, CancellationToken ct)
     {

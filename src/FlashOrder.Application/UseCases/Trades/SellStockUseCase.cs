@@ -11,7 +11,7 @@ namespace FlashOrder.Application.UseCases.Trades;
 public sealed class SellStockUseCase(
     IStockRepository stockRepository,
     IPositionRepository positionRepository,
-    ITransactionRepository transactionRepository)
+    ITransactionRepository transactionRepository) : ISellStockUseCase
 {
     public async Task<TransactionResponse> ExecuteAsync(SellStockCommand command, CancellationToken ct)
     {

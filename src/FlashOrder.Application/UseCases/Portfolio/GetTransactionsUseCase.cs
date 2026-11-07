@@ -3,7 +3,7 @@ using FlashOrder.Application.DTOs.Responses;
 
 namespace FlashOrder.Application.UseCases.Portfolio;
 
-public sealed class GetTransactionsUseCase(ITransactionRepository transactions)
+public sealed class GetTransactionsUseCase(ITransactionRepository transactions) : IGetTransactionsUseCase
 {
     public async Task<IReadOnlyCollection<TransactionResponse>> ExecuteAsync(CancellationToken ct)
     {
