@@ -3,7 +3,7 @@ using FlashOrder.Application.DTOs.Responses;
 
 namespace FlashOrder.Application.UseCases.Stocks;
 
-public sealed class GetStocksUseCase(IStockRepository stockRepository)
+public sealed class GetStocksUseCase(IStockRepository stockRepository) : IGetStocksUseCase
 {
     public async Task<IReadOnlyCollection<StockResponse>> ExecuteAsync(CancellationToken ct)
     {
