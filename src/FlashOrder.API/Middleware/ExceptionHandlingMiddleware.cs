@@ -11,7 +11,7 @@ public sealed class ExceptionHandlingMiddleware(RequestDelegate next)
         {
             await next(context);
         }
-        catch (FlashOrder.Application.Exceptions.ApplicationException ex)
+        catch (Application.Exceptions.ApplicationException ex)
         {
             var statusCode = ex.ErrorCode switch
             {
@@ -22,7 +22,7 @@ public sealed class ExceptionHandlingMiddleware(RequestDelegate next)
 
             await WriteErrorAsync(context, statusCode, "application_error", ex.Message, null);
         }
-        catch (FlashOrder.Domain.Exceptions.DomainException ex)
+        catch (Domain.Exceptions.DomainException ex)
         {
             await WriteErrorAsync(context, StatusCodes.Status422UnprocessableEntity, "domain_error", ex.Message, null);
         }
