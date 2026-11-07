@@ -95,6 +95,7 @@ Projeto de testes:
 - Use cases expostos por interfaces para reduzir acoplamento da API.
 - Configuracao de DI extraida para classe dedicada em `src/FlashOrder.API/Configuration/DependencyInjection.cs`.
 - Tratamento global de excecoes em middleware com mapeamento por `ApplicationErrorCode` (sem comparacao por texto de mensagem).
+- Logging estruturado em middleware para requests (`Method`, `Path`, `StatusCode`, `ElapsedMs`, `TraceId`) e excecoes (`ErrorCode`, `TraceId`).
 - Regras de negocio no dominio/application e nao no controller.
 
 ## Premissas de escopo
