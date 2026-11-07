@@ -17,6 +17,14 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         => $"{prefix}{Guid.NewGuid():N}"[..10].ToUpperInvariant();
 
     [Fact]
+    public async Task HealthCheck_ShouldReturnOk()
+    {
+        var response = await _client.GetAsync("/health");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Fact]
     public async Task PostStock_WithValidRequest_ShouldReturnCreated()
     {
         var code = NewCode("PETR");

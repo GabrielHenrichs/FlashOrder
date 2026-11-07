@@ -106,12 +106,13 @@ Projeto de testes:
 
 ## Endpoints principais
 
-- `POST /api/stocks`
-- `GET /api/stocks`
-- `POST /api/trades/buy`
-- `POST /api/trades/sell`
-- `GET /api/portfolio/positions`
-- `GET /api/portfolio/transactions`
+- `GET /health`
+- `POST /api/v1/stocks`
+- `GET /api/v1/stocks`
+- `POST /api/v1/trades/buy`
+- `POST /api/v1/trades/sell`
+- `GET /api/v1/portfolio/positions`
+- `GET /api/v1/portfolio/transactions`
 
 ## Codigos HTTP relevantes
 
