@@ -17,8 +17,8 @@ public sealed class StocksController(
 {
     [HttpPost]
     [SwaggerOperation(
-        Summary = "Cadastra uma acao",
-        Description = "Cria uma nova acao com codigo unico, nome da empresa e preco atual.")]
+        Summary = "Cadastra uma ação",
+        Description = "Cria uma nova ação com código único, nome da empresa e preço atual.")]
     [ProducesResponseType(typeof(StockResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status409Conflict)]
     [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status422UnprocessableEntity)]
@@ -34,8 +34,8 @@ public sealed class StocksController(
 
     [HttpGet]
     [SwaggerOperation(
-        Summary = "Lista acoes cadastradas",
-        Description = "Retorna a lista de acoes disponiveis para negociacao.")]
+        Summary = "Lista ações cadastradas",
+        Description = "Retorna a lista de ações disponíveis para negociação.")]
     [ProducesResponseType(typeof(IReadOnlyCollection<StockResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> List(CancellationToken ct)

@@ -17,8 +17,8 @@ public sealed class TradesController(
 {
     [HttpPost("buy")]
     [SwaggerOperation(
-        Summary = "Compra acoes",
-        Description = "Registra uma operacao de compra e atualiza a posicao do ativo.")]
+        Summary = "Compra ações",
+        Description = "Registra uma operação de compra e atualiza a posição do ativo.")]
     [ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status422UnprocessableEntity)]
@@ -34,8 +34,8 @@ public sealed class TradesController(
 
     [HttpPost("sell")]
     [SwaggerOperation(
-        Summary = "Vende acoes",
-        Description = "Registra uma operacao de venda e reduz a posicao do ativo.")]
+        Summary = "Vende ações",
+        Description = "Registra uma operação de venda e reduz a posição do ativo.")]
     [ProducesResponseType(typeof(TransactionResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status422UnprocessableEntity)]

@@ -1,38 +1,43 @@
 # FlashOrder
 
-API HTTP para cadastro, compra e venda de acoes com foco em regras de negocio, arquitetura em camadas e testabilidade.
+API HTTP para cadastro, compra e venda de ações.
 
-## Objetivo
+## Pre-requisitos
 
-Implementar o desafio tecnico de compra e venda de acoes utilizando .NET, com:
-
-- separacao de responsabilidades por camadas;
-- regras de negocio explicitas;
-- persistencia em memoria;
-- testes unitarios e testes de contrato da API.
-
-## Stack e prerequisitos
+Para executar localmente:
 
 - .NET SDK 8.0+
-- Sistema operacional com suporte ao .NET 8
+- sistema operacional com suporte ao .NET 8
 
-## Como executar a aplicacao
+Para executar com Docker (opcional):
 
-1. Restaurar e compilar:
+- Docker Engine 24+ (ou Docker Desktop)
+- Docker Compose v2
+
+## Como executar a aplicação (sem Docker)
+
+1. Restaurar dependências:
+
+```bash
+dotnet restore FlashOrder.sln
+```
+
+2. Compilar a solução:
 
 ```bash
 dotnet build FlashOrder.sln
 ```
 
-2. Executar a API:
+3. Executar a API em porta fixa:
 
 ```bash
-dotnet run --project src/FlashOrder.API/FlashOrder.API.csproj
+dotnet run --project src/FlashOrder.API/FlashOrder.API.csproj --urls http://localhost:8080
 ```
 
-3. Abrir Swagger (ambiente Development):
+4. Validar endpoints:
 
-- `https://localhost:<porta>/swagger`
+- Swagger: `http://localhost:8080/swagger`
+- Health check: `http://localhost:8080/health`
 
 ## Como executar com Docker
 
@@ -48,62 +53,64 @@ Executar container:
 docker run --rm -p 8080:8080 -e ASPNETCORE_ENVIRONMENT=Development flashorder-api
 ```
 
-Ou com docker compose:
+Ou subir com compose:
 
 ```bash
 docker compose up --build
 ```
 
-Swagger no container:
+Endpoints no container:
 
-- `http://localhost:8080/swagger`
+- Swagger: `http://localhost:8080/swagger`
+- Health check: `http://localhost:8080/health`
 
 ## Como executar os testes
 
-Executar todos os testes:
+Executar toda a suíte:
 
 ```bash
-dotnet test FlashOrder.sln
+dotnet test tests/FlashOrder.Tests/FlashOrder.Tests.csproj
 ```
 
-Executar testes da API (contrato):
+Executar apenas testes de integração da API:
 
 ```bash
-dotnet test tests/FlashOrder.Tests/FlashOrder.Tests.csproj --filter "FullyQualifiedName~ApiContractTests"
+dotnet test tests/FlashOrder.Tests/FlashOrder.Tests.csproj --filter "FullyQualifiedName~ApiIntegrationTests"
 ```
 
 ## Arquitetura adotada
 
-Estrutura em 4 camadas:
+Estrutura em 4 camadas (Clean Architecture):
 
 - `src/FlashOrder.API`
-  - Controllers, contratos HTTP (request/response), middleware global de erro e composicao de DI.
+  - Controllers, contratos HTTP (request/response), middlewares e composição de DI.
 - `src/FlashOrder.Application`
-  - Use cases, DTOs, contratos de repositorio e excecoes de aplicacao.
+  - Use cases, DTOs, contratos de repositório e exceções de aplicação.
 - `src/FlashOrder.Domain`
-  - Entidades e invariantes de dominio (`Stock`, `Position`, `Transaction`).
+  - Entidades e invariantes de domínio (`Stock`, `Position`, `Transaction`).
 - `src/FlashOrder.Infra.Data`
-  - Implementacoes de repositorios em memoria.
+  - Implementações de repositórios em memória.
 
 Projeto de testes:
 
 - `tests/FlashOrder.Tests`
 
-## Principais decisoes tecnicas
+## Principais decisões técnicas
 
-- Persistencia em memoria por escopo do desafio.
-- Use cases expostos por interfaces para reduzir acoplamento da API.
-- Configuracao de DI extraida para classe dedicada em `src/FlashOrder.API/Configuration/DependencyInjection.cs`.
-- Tratamento global de excecoes em middleware com mapeamento por `ApplicationErrorCode` (sem comparacao por texto de mensagem).
-- Logging estruturado em middleware para requests (`Method`, `Path`, `StatusCode`, `ElapsedMs`, `TraceId`) e excecoes (`ErrorCode`, `TraceId`).
-- Regras de negocio no dominio/application e nao no controller.
+- Persistência em memória por escopo do desafio.
+- Versionamento de API por URL segment (`/api/v1/...`).
+- Configuração de DI extraída para classe dedicada em `src/FlashOrder.API/Configuration/DependencyInjection.cs`.
+- Tratamento global de exceções em middleware com mapeamento por `ApplicationErrorCode`.
+- Logging estruturado em middleware para requests (`Method`, `Path`, `StatusCode`, `ElapsedMs`, `TraceId`) e exceções (`ErrorCode`, `TraceId`).
+- Health check dedicado em `GET /health`.
+- Regras de negócio no domínio/application e não no controller.
 
 ## Premissas de escopo
 
-- Preco da acao imutavel apos cadastro (nesta versao).
-- Investidor unico implicito (sem autenticacao).
-- Sem short sell, sem posicao negativa.
-- Sem calculo de preco medio, lucro/prejuizo, impostos e taxas.
+- Preço da ação imutável após cadastro (nesta versão).
+- Investidor único implícito (sem autenticação).
+- Sem short sell, sem posição negativa.
+- Sem cálculo de preço médio, lucro/prejuízo, impostos e taxas.
 
 ## Endpoints principais
 
@@ -115,11 +122,11 @@ Projeto de testes:
 - `GET /api/v1/portfolio/positions`
 - `GET /api/v1/portfolio/transactions`
 
-## Codigos HTTP relevantes
+## Códigos HTTP relevantes
 
-- `201 Created` para cadastro de acao com sucesso.
-- `200 OK` para consultas e operacoes validas.
-- `404 Not Found` para acao inexistente.
-- `409 Conflict` para codigo de acao duplicado.
-- `422 Unprocessable Entity` para violacao de regra de negocio.
+- `201 Created` para cadastro de ação com sucesso.
+- `200 OK` para consultas e operações válidas.
+- `404 Not Found` para ação inexistente.
+- `409 Conflict` para código de ação duplicado.
+- `422 Unprocessable Entity` para violação de regra de negócio.
 - `500 Internal Server Error` para erro inesperado.

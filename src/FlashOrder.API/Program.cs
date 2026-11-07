@@ -33,7 +33,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "FlashOrder API",
         Version = "v1",
-        Description = "API para cadastro, compra e venda de acoes",
+        Description = "API para cadastro, compra e venda de ações",
         Contact = new Microsoft.OpenApi.Models.OpenApiContact
         {
             Name = "FlashOrder"

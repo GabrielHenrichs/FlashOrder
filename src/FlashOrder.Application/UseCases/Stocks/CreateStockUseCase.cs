@@ -14,7 +14,7 @@ public sealed class CreateStockUseCase(IStockRepository stockRepository) : ICrea
         var normalizedCode = (command.Code ?? string.Empty).Trim().ToUpperInvariant();
 
         if (await stockRepository.ExistsAsync(normalizedCode, ct))
-            throw new ApplicationLayerException(ApplicationErrorCode.Conflict, "Acao ja cadastrada para o codigo informado.");
+            throw new ApplicationLayerException(ApplicationErrorCode.Conflict, "Ação já cadastrada para o código informado.");
 
         var stock = Stock.Create(normalizedCode, command.CompanyName, command.CurrentPrice);
         await stockRepository.AddAsync(stock, ct);

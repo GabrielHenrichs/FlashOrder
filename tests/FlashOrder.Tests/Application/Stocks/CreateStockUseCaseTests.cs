@@ -32,7 +32,7 @@ public class CreateStockUseCaseTests
         var ex = await Assert.ThrowsAsync<FlashOrder.Application.Exceptions.ApplicationException>(() =>
             useCase.ExecuteAsync(new CreateStockCommand("PETR4", "Outra", 40m), CancellationToken.None));
 
-        Assert.Contains("cadastrada", ex.Message, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal("Ação já cadastrada para o código informado.", ex.Message);
     }
 
     [Fact]

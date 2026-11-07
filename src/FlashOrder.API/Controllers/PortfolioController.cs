@@ -15,7 +15,7 @@ public sealed class PortfolioController(
 {
     [HttpGet("positions")]
     [SwaggerOperation(
-        Summary = "Consulta posicoes atuais",
+        Summary = "Consulta posições atuais",
         Description = "Retorna as quantidades atuais por ativo na carteira.")]
     [ProducesResponseType(typeof(IReadOnlyCollection<PositionResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -27,8 +27,8 @@ public sealed class PortfolioController(
 
     [HttpGet("transactions")]
     [SwaggerOperation(
-        Summary = "Consulta historico de transacoes",
-        Description = "Retorna o historico de compras e vendas concluidas em ordem decrescente de data.")]
+        Summary = "Consulta histórico de transações",
+        Description = "Retorna o histórico de compras e vendas concluídas em ordem decrescente de data.")]
     [ProducesResponseType(typeof(IReadOnlyCollection<TransactionResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetTransactions(CancellationToken ct)

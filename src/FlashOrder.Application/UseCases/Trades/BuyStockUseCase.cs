@@ -19,7 +19,7 @@ public sealed class BuyStockUseCase(
             throw new ApplicationLayerException(ApplicationErrorCode.Validation, "Quantidade deve ser maior que zero.");
 
         var stock = await stockRepository.GetByCodeAsync(command.StockCode, ct)
-            ?? throw new ApplicationLayerException(ApplicationErrorCode.NotFound, "Acao nao encontrada.");
+            ?? throw new ApplicationLayerException(ApplicationErrorCode.NotFound, "Ação não encontrada.");
 
         var position = await positionRepository.GetByStockCodeAsync(stock.Code, ct) ?? new Position(stock.Code, 0);
         position.Increase(command.Quantity);

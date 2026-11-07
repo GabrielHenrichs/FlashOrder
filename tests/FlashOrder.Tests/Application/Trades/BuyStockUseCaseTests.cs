@@ -33,8 +33,10 @@ public class BuyStockUseCaseTests
         var transactions = new FakeTransactionRepository();
         var sut = new BuyStockUseCase(stocks, positions, transactions);
 
-        await Assert.ThrowsAsync<FlashOrder.Application.Exceptions.ApplicationException>(() =>
+        var ex = await Assert.ThrowsAsync<FlashOrder.Application.Exceptions.ApplicationException>(() =>
             sut.ExecuteAsync(new BuyStockCommand("PETR4", 1), CancellationToken.None));
+
+        Assert.Equal("Ação não encontrada.", ex.Message);
 
         Assert.Empty(await transactions.ListAsync(CancellationToken.None));
     }
