@@ -123,6 +123,7 @@ Projeto de testes:
 - `GET /api/v1/portfolio/positions`
 - `GET /api/v1/portfolio/positions/{stockCode}`
 - `GET /api/v1/portfolio/transactions`
+- `GET /api/v1/portfolio/transactions/{stockCode}`
 
 ## Códigos HTTP relevantes
 

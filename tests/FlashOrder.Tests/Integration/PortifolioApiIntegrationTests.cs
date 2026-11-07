@@ -56,7 +56,7 @@ public class PortifolioApiIntegrationTests : IClassFixture<WebApplicationFactory
     }
 
     [Fact]
-    public async Task GetPositionByStockCode_ShouldReturnRegisteredStock()
+    public async Task GetPositionByStockCode_ShouldReturnExpectedState()
     {
         var code = NewCode("LREN");
 
@@ -74,6 +74,31 @@ public class PortifolioApiIntegrationTests : IClassFixture<WebApplicationFactory
         });
 
         var response = await _client.GetAsync($"/api/v1/portfolio/positions/{code}");
+        var payload = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Contains(code, payload, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public async Task GetTransactionsByStockCode_ShouldReturnRegisteredStock()
+    {
+        var code = NewCode("LREN");
+
+        await _client.PostAsJsonAsync("/api/v1/stocks", new
+        {
+            code,
+            companyName = "Lojas Renner",
+            currentPrice = 20m
+        });
+
+        await _client.PostAsJsonAsync("/api/v1/trades/buy", new
+        {
+            stockCode = code,
+            quantity = 3
+        });
+
+        var response = await _client.GetAsync($"/api/v1/portfolio/transactions/{code}");
         var payload = await response.Content.ReadAsStringAsync();
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

@@ -50,4 +50,17 @@ public sealed class PortfolioController(
         var result = await getTransactionsUseCase.ExecuteAsync(ct);
         return Ok(result);
     }
+
+    [HttpGet("transactions/{stockCode}")]
+    [SwaggerOperation(
+        Summary = "Consulta histórico de transações de um ativo",
+        Description = "Retorna o histórico de compras e vendas concluídas de um ativo específico em ordem decrescente de data.")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<TransactionResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetTransactionsByStockCode(string stockCode, CancellationToken ct)
+    {
+        var result = await getTransactionsUseCase.ExecuteAsync(ct);
+        var filteredResult = result.Where(t => t.StockCode.Equals(stockCode, StringComparison.OrdinalIgnoreCase)).ToList();
+        return Ok(filteredResult);
+    }
 }
