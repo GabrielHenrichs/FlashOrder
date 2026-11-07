@@ -1,8 +1,10 @@
 using FlashOrder.Application.Abstractions;
 using FlashOrder.Application.DTOs.Commands;
 using FlashOrder.Application.DTOs.Responses;
+using FlashOrder.Application.Exceptions;
 using FlashOrder.Domain.Entities;
 using FlashOrder.Domain.Enums;
+using ApplicationLayerException = FlashOrder.Application.Exceptions.ApplicationException;
 
 namespace FlashOrder.Application.UseCases.Trades;
 
@@ -14,10 +16,10 @@ public sealed class BuyStockUseCase(
     public async Task<TransactionResponse> ExecuteAsync(BuyStockCommand command, CancellationToken ct)
     {
         if (command.Quantity <= 0)
-            throw new Exceptions.ApplicationException("Quantidade deve ser maior que zero.");
+            throw new ApplicationLayerException(ApplicationErrorCode.Validation, "Quantidade deve ser maior que zero.");
 
         var stock = await stockRepository.GetByCodeAsync(command.StockCode, ct)
-            ?? throw new Exceptions.ApplicationException("Ação não encontrada.");
+            ?? throw new ApplicationLayerException(ApplicationErrorCode.NotFound, "Acao nao encontrada.");
 
         var position = await positionRepository.GetByStockCodeAsync(stock.Code, ct) ?? new Position(stock.Code, 0);
         position.Increase(command.Quantity);
