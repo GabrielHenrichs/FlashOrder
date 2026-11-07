@@ -34,6 +34,30 @@ dotnet run --project src/FlashOrder.API/FlashOrder.API.csproj
 
 - `https://localhost:<porta>/swagger`
 
+## Como executar com Docker
+
+Build da imagem:
+
+```bash
+docker build -t flashorder-api .
+```
+
+Executar container:
+
+```bash
+docker run --rm -p 8080:8080 -e ASPNETCORE_ENVIRONMENT=Development flashorder-api
+```
+
+Ou com docker compose:
+
+```bash
+docker compose up --build
+```
+
+Swagger no container:
+
+- `http://localhost:8080/swagger`
+
 ## Como executar os testes
 
 Executar todos os testes:
