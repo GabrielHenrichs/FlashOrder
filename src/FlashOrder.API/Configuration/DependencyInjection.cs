@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IBuyStockUseCase, BuyStockUseCase>();
         services.AddScoped<ISellStockUseCase, SellStockUseCase>();
         services.AddScoped<IGetPositionsUseCase, GetPositionsUseCase>();
+        services.AddScoped<IGetPositionByStockCodeUseCase, GetPositionByStockCodeUseCase>();
         services.AddScoped<IGetTransactionsUseCase, GetTransactionsUseCase>();
 
         return services;

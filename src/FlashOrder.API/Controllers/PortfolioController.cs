@@ -11,6 +11,7 @@ namespace FlashOrder.API.Controllers;
 [Route("api/v{version:apiVersion}/portfolio")]
 public sealed class PortfolioController(
     IGetPositionsUseCase getPositionsUseCase,
+    IGetPositionByStockCodeUseCase getPositionByStockCodeUseCase,
     IGetTransactionsUseCase getTransactionsUseCase) : ControllerBase
 {
     [HttpGet("positions")]
@@ -22,6 +23,19 @@ public sealed class PortfolioController(
     public async Task<IActionResult> GetPositions(CancellationToken ct)
     {
         var result = await getPositionsUseCase.ExecuteAsync(ct);
+        return Ok(result);
+    }
+
+    [HttpGet("positions/{stockCode}")]
+    [SwaggerOperation(
+        Summary = "Consulta posição atual de um ativo",
+        Description = "Retorna a quantidade atual de um ativo específico na carteira.")]
+    [ProducesResponseType(typeof(PositionResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetPositionByStockCode(string stockCode, CancellationToken ct)
+    {
+        var result = await getPositionByStockCodeUseCase.ExecuteAsync(stockCode, ct);
         return Ok(result);
     }
 

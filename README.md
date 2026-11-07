@@ -121,6 +121,7 @@ Projeto de testes:
 - `POST /api/v1/trades/buy`
 - `POST /api/v1/trades/sell`
 - `GET /api/v1/portfolio/positions`
+- `GET /api/v1/portfolio/positions/{stockCode}`
 - `GET /api/v1/portfolio/transactions`
 
 ## Códigos HTTP relevantes
