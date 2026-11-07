@@ -13,7 +13,8 @@ namespace FlashOrder.API.Controllers;
 [Route("api/v{version:apiVersion}/stocks")]
 public sealed class StocksController(
     ICreateStockUseCase createStockUseCase,
-    IGetStocksUseCase getStocksUseCase) : ControllerBase
+    IGetStocksUseCase getStocksUseCase,
+    IGetStockByCodeUseCase getStockByCodeUseCase) : ControllerBase
 {
     [HttpPost]
     [SwaggerOperation(
@@ -41,6 +42,19 @@ public sealed class StocksController(
     public async Task<IActionResult> List(CancellationToken ct)
     {
         var result = await getStocksUseCase.ExecuteAsync(ct);
+        return Ok(result);
+    }
+
+    [HttpGet("{code}")]
+    [SwaggerOperation(
+        Summary = "Obter ação por código",
+        Description = "Retorna os detalhes de uma ação específica com base no código fornecido.")]
+    [ProducesResponseType(typeof(StockResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Contracts.Responses.ErrorResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetByCode(string code, CancellationToken ct)
+    {
+        var result = await getStockByCodeUseCase.ExecuteAsync(code, ct);
         return Ok(result);
     }
 }

@@ -96,6 +96,25 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
+    public async Task GetStockByCode_ShouldReturnRegisteredStock()
+    {
+        var code = NewCode("LREN");
+
+        await _client.PostAsJsonAsync("/api/v1/stocks", new
+        {
+            code,
+            companyName = "Lojas Renner",
+            currentPrice = 20m
+        });
+
+        var response = await _client.GetAsync($"/api/v1/stocks/{code}");
+        var payload = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Contains(code, payload, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public async Task PostBuy_WithUnknownStock_ShouldReturnNotFound()
     {
         var unknownCode = NewCode("MISS");

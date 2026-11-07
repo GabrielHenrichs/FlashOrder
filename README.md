@@ -117,6 +117,7 @@ Projeto de testes:
 - `GET /health`
 - `POST /api/v1/stocks`
 - `GET /api/v1/stocks`
+- `GET /api/v1/stocks/{code}`
 - `POST /api/v1/trades/buy`
 - `POST /api/v1/trades/sell`
 - `GET /api/v1/portfolio/positions`
