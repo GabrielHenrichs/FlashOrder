@@ -35,4 +35,12 @@ public class StockTests
         var ex = Assert.Throws<DomainException>(() => Stock.Create("ITUB4", "Itaú Unibanco", 0m));
         Assert.Contains("Preço", ex.Message, StringComparison.OrdinalIgnoreCase);
     }
+
+    [Fact]
+    public void Create_ShouldNormalizeCodeToUppercase()
+    {
+        var stock = Stock.Create("itub4", "Itaú Unibanco", 40.53m);
+
+        Assert.Equal("ITUB4", stock.Code);
+    }
 }
