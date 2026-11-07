@@ -35,4 +35,15 @@ public class CreateStockUseCaseTests
         Assert.Contains("cadastrada", ex.Message, StringComparison.OrdinalIgnoreCase);
     }
 
+    [Fact]
+    public async Task Execute_WhenCodeExistsInDifferentCasing_ShouldThrowApplicationException()
+    {
+        var repository = new FakeStockRepository();
+        await repository.AddAsync(Stock.Create("PETR4", "Petrobras", 30m), CancellationToken.None);
+        var useCase = new CreateStockUseCase(repository);
+
+        await Assert.ThrowsAsync<FlashOrder.Application.Exceptions.ApplicationException>(() =>
+            useCase.ExecuteAsync(new CreateStockCommand("petr4", "Outra", 40m), CancellationToken.None));
+    }
+
 }
