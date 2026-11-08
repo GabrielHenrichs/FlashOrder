@@ -66,16 +66,22 @@ Endpoints no container:
 
 ## Como executar os testes
 
-Executar os testes unitários da API:
+Executar toda a suíte (unitários + integração):
 
 ```bash
-dotnet test tests/FlashOrder.UnitTests/FlashOrder.UnitTests.csproj
+dotnet test FlashOrder.sln
 ```
 
-Executar os testes de integração da API:
+Executar apenas os testes de integração da API:
 
 ```bash
 dotnet test tests/FlashOrder.IntegrationTests/FlashOrder.IntegrationTests.csproj
+```
+
+Executar apenas os testes unitários:
+
+```bash
+dotnet test tests/FlashOrder.UnitTests/FlashOrder.UnitTests.csproj
 ```
 
 ## Arquitetura adotada
@@ -83,7 +89,7 @@ dotnet test tests/FlashOrder.IntegrationTests/FlashOrder.IntegrationTests.csproj
 Estrutura em 4 camadas (Clean Architecture):
 
 - `src/FlashOrder.API`
-  - Controllers, contratos HTTP (request/response), middlewares e composição de DI.
+  - Controllers, contratos HTTP (request/response), middlewares (`ExceptionHandlingMiddleware`, `RequestLoggingMiddleware`) e composição de DI.
 - `src/FlashOrder.Application`
   - Use cases, DTOs, contratos de repositório e exceções de aplicação.
 - `src/FlashOrder.Domain`
@@ -93,12 +99,14 @@ Estrutura em 4 camadas (Clean Architecture):
 
 Projeto de testes:
 
-- `tests/FlashOrder.Tests`
+- `tests/FlashOrder.UnitTests`
+- `tests/FlashOrder.IntegrationTests`
 
 ## Principais decisões técnicas
 
-- Persistência em memória por escopo do desafio.
-- Versionamento de API por URL segment (`/api/v1/...`).
+- Persistência em memória.
+- Versionamento de API por segmento de URL (`/api/v1/...`).
+- Swagger/OpenAPI com anotações para descrição de endpoints e modelos de resposta.
 - Configuração de DI extraída para classe dedicada em `src/FlashOrder.API/Configuration/DependencyInjection.cs`.
 - Tratamento global de exceções em middleware com mapeamento por `ApplicationErrorCode`.
 - Logging estruturado em middleware para requests (`Method`, `Path`, `StatusCode`, `ElapsedMs`, `TraceId`) e exceções (`ErrorCode`, `TraceId`).
@@ -124,6 +132,10 @@ Projeto de testes:
 - `GET /api/v1/portfolio/positions/{stockCode}`
 - `GET /api/v1/portfolio/transactions`
 
+Filtro opcional de transações por ativo:
+
+- `GET /api/v1/portfolio/transactions?stockCode={code}`
+
 ## Códigos HTTP relevantes
 
 - `201 Created` para cadastro de ação com sucesso.
@@ -132,3 +144,13 @@ Projeto de testes:
 - `409 Conflict` para código de ação duplicado.
 - `422 Unprocessable Entity` para violação de regra de negócio.
 - `500 Internal Server Error` para erro inesperado.
+
+Mapeamento principal por endpoint:
+
+- `POST /api/v1/stocks`: `201`, `409`, `422`, `500`
+- `GET /api/v1/stocks`: `200`, `500`
+- `GET /api/v1/stocks/{code}`: `200`, `404`, `500`
+- `POST /api/v1/trades/buy` e `POST /api/v1/trades/sell`: `200`, `404`, `422`, `500`
+- `GET /api/v1/portfolio/positions`: `200`, `500`
+- `GET /api/v1/portfolio/positions/{stockCode}`: `200`, `404`, `500`
+- `GET /api/v1/portfolio/transactions`: `200`, `500`
