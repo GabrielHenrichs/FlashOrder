@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace FlashOrder.IntegrationTests.Controllers;
 
-public class PortifolioApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+public class PortifolioControllerTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
 
-    public PortifolioApiIntegrationTests(WebApplicationFactory<Program> factory)
+    public PortifolioControllerTests(WebApplicationFactory<Program> factory)
     {
         _client = factory.CreateClient();
     }
