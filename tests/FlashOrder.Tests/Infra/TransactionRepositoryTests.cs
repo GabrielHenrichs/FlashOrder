@@ -12,7 +12,7 @@ public class TransactionRepositoryTests
         var repository = new TransactionRepository();
         await repository.AddAsync(Transaction.Create("PETR4", TransactionType.Buy, 2, 30m, DateTime.UtcNow), CancellationToken.None);
 
-        var result = await repository.ListAsync(CancellationToken.None);
+        var result = await repository.ListAsync(stockCode: null, CancellationToken.None);
 
         Assert.Single(result);
     }

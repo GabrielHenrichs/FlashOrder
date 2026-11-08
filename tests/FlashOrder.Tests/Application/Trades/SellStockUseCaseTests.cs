@@ -22,7 +22,7 @@ public class SellStockUseCaseTests
         Assert.Equal("Sell", tx.Type);
         Assert.Equal(120m, tx.TotalValue);
         Assert.Equal(6, (await positions.GetByStockCodeAsync("PETR4", CancellationToken.None))!.Quantity);
-        Assert.Single(await transactions.ListAsync(CancellationToken.None));
+        Assert.Single(await transactions.ListAsync(stockCode: null, CancellationToken.None));
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class SellStockUseCaseTests
         await Assert.ThrowsAsync<FlashOrder.Application.Exceptions.ApplicationException>(() =>
             sut.ExecuteAsync(new SellStockCommand("PETR4", 6), CancellationToken.None));
 
-        Assert.Empty(await transactions.ListAsync(CancellationToken.None));
+        Assert.Empty(await transactions.ListAsync(stockCode: null, CancellationToken.None));
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class SellStockUseCaseTests
 
         Assert.Equal("Ação não encontrada.", ex.Message);
 
-        Assert.Empty(await transactions.ListAsync(CancellationToken.None));
+        Assert.Empty(await transactions.ListAsync(stockCode: null, CancellationToken.None));
     }
 
     [Fact]
@@ -70,6 +70,6 @@ public class SellStockUseCaseTests
         await Assert.ThrowsAsync<FlashOrder.Application.Exceptions.ApplicationException>(() =>
             sut.ExecuteAsync(new SellStockCommand("PETR4", 0), CancellationToken.None));
 
-        Assert.Empty(await transactions.ListAsync(CancellationToken.None));
+        Assert.Empty(await transactions.ListAsync(stockCode: null, CancellationToken.None));
     }
 }

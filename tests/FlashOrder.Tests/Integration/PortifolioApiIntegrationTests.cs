@@ -98,7 +98,7 @@ public class PortifolioApiIntegrationTests : IClassFixture<WebApplicationFactory
             quantity = 3
         });
 
-        var response = await _client.GetAsync($"/api/v1/portfolio/transactions/{code}");
+        var response = await _client.GetAsync($"/api/v1/portfolio/transactions?stockCode={code}");
         var payload = await response.Content.ReadAsStringAsync();
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

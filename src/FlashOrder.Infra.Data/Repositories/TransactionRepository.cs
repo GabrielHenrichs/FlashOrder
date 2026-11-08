@@ -14,13 +14,10 @@ public sealed class TransactionRepository : ITransactionRepository
         return Task.CompletedTask;
     }
 
-    public Task<IReadOnlyCollection<Transaction>> ListAsync(CancellationToken ct)
-        => Task.FromResult((IReadOnlyCollection<Transaction>)_transactions.ToArray());
-
-    public Task<IReadOnlyCollection<Transaction>> ListAsync(string stockCode, CancellationToken ct)
+    public Task<IReadOnlyCollection<Transaction>> ListAsync(string? stockCode, CancellationToken ct)
     {
         var transactions = _transactions
-            .Where(x => x.StockCode.Equals(stockCode, StringComparison.OrdinalIgnoreCase))
+            .Where(x => string.IsNullOrWhiteSpace(stockCode) || x.StockCode.Equals(stockCode, StringComparison.OrdinalIgnoreCase))
             .ToArray();
 
         return Task.FromResult((IReadOnlyCollection<Transaction>)transactions);

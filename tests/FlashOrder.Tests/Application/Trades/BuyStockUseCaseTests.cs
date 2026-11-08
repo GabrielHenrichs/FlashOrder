@@ -22,7 +22,7 @@ public class BuyStockUseCaseTests
         Assert.Equal("Buy", tx.Type);
         Assert.Equal(300m, tx.TotalValue);
         Assert.Equal(10, (await positions.GetByStockCodeAsync("PETR4", CancellationToken.None))!.Quantity);
-        Assert.Single(await transactions.ListAsync(CancellationToken.None));
+        Assert.Single(await transactions.ListAsync(stockCode: null, CancellationToken.None));
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class BuyStockUseCaseTests
 
         Assert.Equal("Ação não encontrada.", ex.Message);
 
-        Assert.Empty(await transactions.ListAsync(CancellationToken.None));
+        Assert.Empty(await transactions.ListAsync(stockCode: null, CancellationToken.None));
     }
 
     [Fact]
@@ -53,6 +53,6 @@ public class BuyStockUseCaseTests
         await Assert.ThrowsAsync<FlashOrder.Application.Exceptions.ApplicationException>(() =>
             sut.ExecuteAsync(new BuyStockCommand("PETR4", 0), CancellationToken.None));
 
-        Assert.Empty(await transactions.ListAsync(CancellationToken.None));
+        Assert.Empty(await transactions.ListAsync(stockCode: null, CancellationToken.None));
     }
 }

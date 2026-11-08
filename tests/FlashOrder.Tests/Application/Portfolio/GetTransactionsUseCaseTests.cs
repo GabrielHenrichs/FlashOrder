@@ -16,7 +16,7 @@ public class GetTransactionsUseCaseTests
 
         var sut = new GetTransactionsUseCase(transactions);
 
-        var result = await sut.ExecuteAsync(CancellationToken.None);
+        var result = await sut.ExecuteAsync(stockCode: null, CancellationToken.None);
 
         Assert.Equal(2, result.Count);
         Assert.Equal("Sell", result.First().Type);

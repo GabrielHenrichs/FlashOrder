@@ -13,9 +13,6 @@ public sealed class FakeTransactionRepository : ITransactionRepository
         return Task.CompletedTask;
     }
 
-    public Task<IReadOnlyCollection<Transaction>> ListAsync(string stockCode, CancellationToken ct)
-        => Task.FromResult((IReadOnlyCollection<Transaction>)_transactions.Where(x => x.StockCode == stockCode).ToArray());
-
-    public Task<IReadOnlyCollection<Transaction>> ListAsync(CancellationToken ct)
-        => Task.FromResult((IReadOnlyCollection<Transaction>)_transactions.ToArray());
+    public Task<IReadOnlyCollection<Transaction>> ListAsync(string? stockCode, CancellationToken ct)
+        => Task.FromResult((IReadOnlyCollection<Transaction>)_transactions.Where(x => string.IsNullOrWhiteSpace(stockCode) || x.StockCode == stockCode).ToArray());
 }
