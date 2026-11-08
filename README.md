@@ -66,16 +66,16 @@ Endpoints no container:
 
 ## Como executar os testes
 
-Executar toda a suíte:
+Executar os testes unitários da API:
 
 ```bash
-dotnet test tests/FlashOrder.Tests/FlashOrder.Tests.csproj
+dotnet test tests/FlashOrder.UnitTests/FlashOrder.UnitTests.csproj
 ```
 
-Executar apenas testes de integração da API:
+Executar os testes de integração da API:
 
 ```bash
-dotnet test tests/FlashOrder.Tests/FlashOrder.Tests.csproj --filter "FullyQualifiedName~ApiIntegrationTests"
+dotnet test tests/FlashOrder.IntegrationTests/FlashOrder.IntegrationTests.csproj
 ```
 
 ## Arquitetura adotada
