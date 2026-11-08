@@ -3,16 +3,33 @@ using FlashOrder.Application.Exceptions;
 
 namespace FlashOrder.API.Middleware;
 
-public sealed class ExceptionHandlingMiddleware(RequestDelegate next)
+public sealed class ExceptionHandlingMiddleware
 {
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+
+    public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+    {
+        _next = next;
+        _logger = logger;
+    }
+
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await next(context);
+            await _next(context);
         }
         catch (Application.Exceptions.ApplicationException ex)
         {
+            _logger.LogWarning(
+                ex,
+                "Application exception {ErrorCode} on {Method} {Path} traceId={TraceId}",
+                ex.ErrorCode,
+                context.Request.Method,
+                context.Request.Path.Value,
+                context.TraceIdentifier);
+
             var statusCode = ex.ErrorCode switch
             {
                 ApplicationErrorCode.Conflict => StatusCodes.Status409Conflict,
@@ -24,10 +41,24 @@ public sealed class ExceptionHandlingMiddleware(RequestDelegate next)
         }
         catch (Domain.Exceptions.DomainException ex)
         {
+            _logger.LogWarning(
+                ex,
+                "Domain exception on {Method} {Path} traceId={TraceId}",
+                context.Request.Method,
+                context.Request.Path.Value,
+                context.TraceIdentifier);
+
             await WriteErrorAsync(context, StatusCodes.Status422UnprocessableEntity, "domain_error", ex.Message, null);
         }
         catch (Exception ex)
         {
+            _logger.LogError(
+                ex,
+                "Unhandled exception on {Method} {Path} traceId={TraceId}",
+                context.Request.Method,
+                context.Request.Path.Value,
+                context.TraceIdentifier);
+
             await WriteErrorAsync(context, StatusCodes.Status500InternalServerError, "internal_error", "Unexpected error.", ex.Message);
         }
     }

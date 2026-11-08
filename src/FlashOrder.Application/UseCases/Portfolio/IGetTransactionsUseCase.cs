@@ -4,5 +4,5 @@ namespace FlashOrder.Application.UseCases.Portfolio;
 
 public interface IGetTransactionsUseCase
 {
-    Task<IReadOnlyCollection<TransactionResponse>> ExecuteAsync(CancellationToken ct);
+    Task<IReadOnlyCollection<TransactionResponse>> ExecuteAsync(string? stockCode, CancellationToken ct);
 }

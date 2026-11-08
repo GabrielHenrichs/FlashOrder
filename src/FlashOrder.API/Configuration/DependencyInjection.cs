@@ -20,10 +20,12 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationUseCases(this IServiceCollection services)
     {
         services.AddScoped<ICreateStockUseCase, CreateStockUseCase>();
+        services.AddScoped<IGetStockByCodeUseCase, GetStockByCodeUseCase>();
         services.AddScoped<IGetStocksUseCase, GetStocksUseCase>();
         services.AddScoped<IBuyStockUseCase, BuyStockUseCase>();
         services.AddScoped<ISellStockUseCase, SellStockUseCase>();
         services.AddScoped<IGetPositionsUseCase, GetPositionsUseCase>();
+        services.AddScoped<IGetPositionByStockCodeUseCase, GetPositionByStockCodeUseCase>();
         services.AddScoped<IGetTransactionsUseCase, GetTransactionsUseCase>();
 
         return services;

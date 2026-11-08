@@ -5,9 +5,9 @@ namespace FlashOrder.Application.UseCases.Portfolio;
 
 public sealed class GetTransactionsUseCase(ITransactionRepository transactions) : IGetTransactionsUseCase
 {
-    public async Task<IReadOnlyCollection<TransactionResponse>> ExecuteAsync(CancellationToken ct)
+    public async Task<IReadOnlyCollection<TransactionResponse>> ExecuteAsync(string? stockCode, CancellationToken ct)
     {
-        var all = await transactions.ListAsync(ct);
+        var all = await transactions.ListAsync(stockCode, ct);
 
         return all
             .OrderByDescending(x => x.OccurredAt)

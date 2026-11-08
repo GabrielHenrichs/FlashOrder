@@ -1,0 +1,10 @@
+services:
+  flashorder-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flashorder-api
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
