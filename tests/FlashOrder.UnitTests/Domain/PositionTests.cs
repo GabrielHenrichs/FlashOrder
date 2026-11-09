@@ -6,6 +6,23 @@ namespace FlashOrder.UnitTests.Domain;
 public class PositionTests
 {
     [Fact]
+    public void Constructor_WithValidData_ShouldCreatePosition()
+    {
+        var position = new Position("ITUB4", 100);
+
+        Assert.Equal("ITUB4", position.StockCode);
+        Assert.Equal(100, position.Quantity);
+    }
+
+    [Fact]
+    public void Constructor_WithEmptyCode_ShouldThrowDomainException()
+    {
+        var ex = Assert.Throws<DomainException>(() => new Position("", 5));
+
+        Assert.Contains("Código", ex.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void Constructor_WithNegativeQuantity_ShouldThrowDomainException()
     {
         var ex = Assert.Throws<DomainException>(() => new Position("PETR4", -1));
