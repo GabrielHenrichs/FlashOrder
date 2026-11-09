@@ -1,10 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-ENV LANG=C.UTF-8
-ENV LC_ALL=C.UTF-8
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
-
 COPY ["FlashOrder.sln", "./"]
 COPY ["src/FlashOrder.API/FlashOrder.API.csproj", "src/FlashOrder.API/"]
 COPY ["src/FlashOrder.Application/FlashOrder.Application.csproj", "src/FlashOrder.Application/"]
@@ -20,6 +16,10 @@ RUN dotnet publish "src/FlashOrder.API/FlashOrder.API.csproj" -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
+
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
