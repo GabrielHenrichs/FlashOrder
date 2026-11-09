@@ -10,7 +10,7 @@ public sealed class GetPositionByStockCodeUseCase(IPositionRepository positionRe
     public async Task<PositionResponse> ExecuteAsync(string stockCode, CancellationToken ct)
     {
         var position = await positionRepository.GetByStockCodeAsync(stockCode, ct)
-            ?? throw new ApplicationLayerException(ApplicationErrorCode.NotFound, "PosiÁ„o n„o encontrada.");
+            ?? throw new ApplicationLayerException(ApplicationErrorCode.NotFound, "Posi√ß√£o n√£o encontrada.");
 
         return new PositionResponse(position.StockCode, position.Quantity);
     }

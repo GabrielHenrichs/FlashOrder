@@ -10,7 +10,7 @@ public sealed class GetStockByCodeUseCase(IStockRepository stockRepository) : IG
     public async Task<StockResponse> ExecuteAsync(string code, CancellationToken ct)
     {
         var stock = await stockRepository.GetByCodeAsync(code, ct)
-            ?? throw new ApplicationLayerException(ApplicationErrorCode.NotFound, "AÁ„o n„o encontrada.");
+            ?? throw new ApplicationLayerException(ApplicationErrorCode.NotFound, "A√ß√£o n√£o encontrada.");
 
         return new StockResponse(stock.Code, stock.CompanyName, stock.CurrentPrice);
     }
