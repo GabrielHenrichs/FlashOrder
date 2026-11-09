@@ -31,6 +31,6 @@ public class GetPositionByStockCodeUseCaseTests
         var ex = await Assert.ThrowsAsync<FlashOrder.Application.Exceptions.ApplicationException>(() =>
             useCase.ExecuteAsync("NONEXISTENT", CancellationToken.None));
 
-        Assert.Equal("PosiÁ„o n„o encontrada.", ex.Message);
+        Assert.Equal("Posi√ß√£o n√£o encontrada.", ex.Message);
     }
 }

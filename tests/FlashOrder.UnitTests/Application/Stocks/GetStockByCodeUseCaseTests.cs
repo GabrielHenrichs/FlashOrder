@@ -9,7 +9,7 @@ public class GetStockByCodeUseCaseTests
     [Fact]
     public async Task Execute_ShouldReturnStockByCode()
     {
-        var stock = Stock.Create("ITUB4", "Itaú Unibanco", 40m);
+        var stock = Stock.Create("ITUB4", "ItaÃº Unibanco", 40m);
 
         var repository = new FakeStockRepository();
         await repository.AddAsync(stock, CancellationToken.None);
@@ -32,6 +32,6 @@ public class GetStockByCodeUseCaseTests
         var ex = await Assert.ThrowsAsync<FlashOrder.Application.Exceptions.ApplicationException>(() =>
             useCase.ExecuteAsync("NONEXISTENT", CancellationToken.None));
 
-        Assert.Equal("Ação não encontrada.", ex.Message);
+        Assert.Equal("AÃ§Ã£o nÃ£o encontrada.", ex.Message);
     }
 }
