@@ -81,6 +81,16 @@ public class PortifolioControllerTests : IClassFixture<WebApplicationFactory<Pro
     }
 
     [Fact]
+    public async Task GetPositionByStockCode_ShouldReturnNotFoundForUnregisteredStock()
+    {
+        var code = NewCode("LREN");
+
+        var response = await _client.GetAsync($"/api/v1/portfolio/positions/{code}");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
     public async Task GetTransactionsByStockCode_ShouldReturnRegisteredStock()
     {
         var code = NewCode("LREN");

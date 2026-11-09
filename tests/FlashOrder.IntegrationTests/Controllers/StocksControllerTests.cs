@@ -105,4 +105,14 @@ public class StocksControllerTests : IClassFixture<WebApplicationFactory<Program
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Contains(code, payload, StringComparison.OrdinalIgnoreCase);
     }
+
+    [Fact]
+    public async Task GetStockByCode_ShouldReturnNotFoundForUnregisteredStock()
+    {
+        var code = NewCode("LREN");
+
+        var response = await _client.GetAsync($"/api/v1/stocks/{code}");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
 }
