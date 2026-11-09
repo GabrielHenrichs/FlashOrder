@@ -19,7 +19,7 @@ public class PositionTests
     {
         var ex = Assert.Throws<DomainException>(() => new Position("", 5));
 
-        Assert.Contains("digo da a", ex.Message, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Código", ex.Message, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
