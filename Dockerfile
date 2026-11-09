@@ -6,7 +6,8 @@ COPY ["src/FlashOrder.API/FlashOrder.API.csproj", "src/FlashOrder.API/"]
 COPY ["src/FlashOrder.Application/FlashOrder.Application.csproj", "src/FlashOrder.Application/"]
 COPY ["src/FlashOrder.Domain/FlashOrder.Domain.csproj", "src/FlashOrder.Domain/"]
 COPY ["src/FlashOrder.Infra.Data/FlashOrder.Infra.Data.csproj", "src/FlashOrder.Infra.Data/"]
-COPY ["tests/FlashOrder.Tests/FlashOrder.Tests.csproj", "tests/FlashOrder.Tests/"]
+COPY ["tests/FlashOrder.IntegrationTests/FlashOrder.IntegrationTests.csproj", "tests/FlashOrder.IntegrationTests/"]
+COPY ["tests/FlashOrder.UnitTests/FlashOrder.UnitTests.csproj", "tests/FlashOrder.UnitTests/"]
 
 RUN dotnet restore "FlashOrder.sln"
 
