@@ -16,4 +16,17 @@ public class TransactionRepositoryTests
 
         Assert.Single(result);
     }
+
+    [Fact]
+    public async Task ListAsync_ShouldFilterByStockCode()
+    {
+        var repository = new TransactionRepository();
+        await repository.AddAsync(Transaction.Create("ITUB4", TransactionType.Buy, 2, 30m, DateTime.UtcNow), CancellationToken.None);
+        await repository.AddAsync(Transaction.Create("VALE3", TransactionType.Sell, 1, 100m, DateTime.UtcNow), CancellationToken.None);
+        
+        var result = await repository.ListAsync(stockCode: "ITUB4", CancellationToken.None);
+        
+        Assert.Single(result);
+        Assert.Equal("ITUB4", result.First().StockCode);
+    }
 }
